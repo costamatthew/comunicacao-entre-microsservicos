@@ -1,5 +1,7 @@
 package br.com.comunicacaoentremicrosservicos.productapi.modules.produto.model;
 
+import br.com.comunicacaoentremicrosservicos.productapi.modules.category.model.Category;
+import br.com.comunicacaoentremicrosservicos.productapi.modules.supplier.model.Supplier;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package br.com.comunicacaoentremicrosservicos.productapi.modules.produto.dto;
+package br.com.comunicacaoentremicrosservicos.productapi.modules.category.dto;
 
 import lombok.Data;
 

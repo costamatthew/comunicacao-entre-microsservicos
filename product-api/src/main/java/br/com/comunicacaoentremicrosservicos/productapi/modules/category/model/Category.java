@@ -1,11 +1,10 @@
-package br.com.comunicacaoentremicrosservicos.productapi.modules.produto.model;
+package br.com.comunicacaoentremicrosservicos.productapi.modules.category.model;
 
-import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.dto.CategoryRequest;
+import br.com.comunicacaoentremicrosservicos.productapi.modules.category.dto.CategoryRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.*;
 

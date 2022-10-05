@@ -1,10 +1,10 @@
-package br.com.comunicacaoentremicrosservicos.productapi.modules.produto.service;
+package br.com.comunicacaoentremicrosservicos.productapi.modules.category.service;
 
 import br.com.comunicacaoentremicrosservicos.productapi.config.exception.ValidationException;
-import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.dto.CategoryRequest;
-import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.dto.CategoryResponse;
-import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.model.Category;
-import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.repository.CategoryRepository;
+import br.com.comunicacaoentremicrosservicos.productapi.modules.category.dto.CategoryRequest;
+import br.com.comunicacaoentremicrosservicos.productapi.modules.category.dto.CategoryResponse;
+import br.com.comunicacaoentremicrosservicos.productapi.modules.category.model.Category;
+import br.com.comunicacaoentremicrosservicos.productapi.modules.category.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
