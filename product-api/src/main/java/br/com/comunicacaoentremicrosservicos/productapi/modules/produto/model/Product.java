@@ -1,15 +1,20 @@
 package br.com.comunicacaoentremicrosservicos.productapi.modules.produto.model;
 
 import br.com.comunicacaoentremicrosservicos.productapi.modules.category.model.Category;
+import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.dto.ProductRequest;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.supplier.model.Supplier;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "PRODUCT")
@@ -32,5 +37,23 @@ public class Product {
 
     @Column(name = "QUANTITY_AVAILABLE", nullable = false)
     private Integer quantityAvailable;
+
+    @Column(name = "CREATE_AT", nullable = false, updatable = false)
+    private LocalDateTime createAt;
+
+    @PrePersist
+    public void prePersist() {
+        createAt = LocalDateTime.now();
+    }
+
+    public static Product of(ProductRequest request, Supplier supplier, Category category) {
+        return Product
+                .builder()
+                .name(request.getName())
+                .quantityAvailable(request.getQuantityAvailable())
+                .supplier(supplier)
+                .category(category)
+                .build();
+    }
 
 }
