@@ -1,8 +1,10 @@
 package br.com.comunicacaoentremicrosservicos.productapi.modules.produto.controller;
 
+import br.com.comunicacaoentremicrosservicos.productapi.config.exception.SuccessResponse;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.dto.ProductRequest;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.dto.ProductResponse;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.service.ProductService;
+import br.com.comunicacaoentremicrosservicos.productapi.modules.supplier.dto.SupplierRequest;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.supplier.dto.SupplierResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +46,16 @@ public class ProductController {
     @GetMapping("supplier/{supplierId}")
     public List<ProductResponse> findBySupplierId(@PathVariable Integer supplierId) {
         return productService.findBySupplierId(supplierId);
+    }
+
+    @PutMapping("{id}")
+    public ProductResponse update(@RequestBody ProductRequest request, @PathVariable Integer id) {
+        return productService.update(request, id);
+    }
+
+    @DeleteMapping("{id}")
+    public SuccessResponse delete(@PathVariable Integer id) {
+        return productService.delete(id);
     }
 
 }

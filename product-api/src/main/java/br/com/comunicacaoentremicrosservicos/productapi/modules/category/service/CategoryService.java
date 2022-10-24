@@ -1,10 +1,12 @@
 package br.com.comunicacaoentremicrosservicos.productapi.modules.category.service;
 
+import br.com.comunicacaoentremicrosservicos.productapi.config.exception.SuccessResponse;
 import br.com.comunicacaoentremicrosservicos.productapi.config.exception.ValidationException;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.category.dto.CategoryRequest;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.category.dto.CategoryResponse;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.category.model.Category;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.category.repository.CategoryRepository;
+import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,9 @@ public class CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ProductService productService;
 
     public List<CategoryResponse> findAll() {
         return categoryRepository
@@ -60,9 +65,34 @@ public class CategoryService {
         return CategoryResponse.of(category);
     }
 
+    public CategoryResponse update(CategoryRequest request, Integer id) {
+        validateCategoryNameInformed(request);
+        var category = Category.of(request);
+        category.setId(id);
+        categoryRepository.save(category);
+
+        return CategoryResponse.of(category);
+    }
+
     private void validateCategoryNameInformed(CategoryRequest request) {
         if(isEmpty(request.getDescription())) {
             throw new ValidationException("The category description was not informed");
+        }
+    }
+
+    public SuccessResponse delete(Integer id) {
+        validateInformeId(id);
+
+        if(productService.existsByCategoryId(id)) {
+            throw new ValidationException("You cannot delete this category because it's already defined by a product.");
+        }
+        categoryRepository.deleteById(id);
+        return SuccessResponse.create("The category was deleted.");
+    }
+
+    private void validateInformeId(Integer id) {
+        if(isEmpty(id)) {
+            throw new ValidationException("The category ID must be informed.");
         }
     }
 
