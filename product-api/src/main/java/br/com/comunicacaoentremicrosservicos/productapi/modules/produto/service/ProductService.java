@@ -5,6 +5,7 @@ import br.com.comunicacaoentremicrosservicos.productapi.config.exception.Validat
 import br.com.comunicacaoentremicrosservicos.productapi.modules.category.service.CategoryService;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.dto.ProductRequest;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.dto.ProductResponse;
+import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.dto.ProductStockDTO;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.model.Product;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.repository.ProductRepository;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.supplier.service.SupplierService;
@@ -145,6 +146,10 @@ public class ProductService {
         if(isEmpty(id)) {
             throw new ValidationException("The product ID must be informed.");
         }
+    }
+
+    public void updateProductStock(ProductStockDTO product) {
+
     }
 
 }
