@@ -3,12 +3,10 @@ package br.com.comunicacaoentremicrosservicos.productapi.modules.produto.service
 import br.com.comunicacaoentremicrosservicos.productapi.config.exception.SuccessResponse;
 import br.com.comunicacaoentremicrosservicos.productapi.config.exception.ValidationException;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.category.service.CategoryService;
-import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.dto.ProductQuantityDTO;
-import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.dto.ProductRequest;
-import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.dto.ProductResponse;
-import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.dto.ProductStockDTO;
+import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.dto.*;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.model.Product;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.repository.ProductRepository;
+import br.com.comunicacaoentremicrosservicos.productapi.modules.sales.client.SalesClient;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.sales.dto.SalesConfirmationDTO;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.sales.enums.SalesStatus;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.sales.rabbitmq.SalesConfirmationSender;
@@ -41,6 +39,9 @@ public class ProductService {
 
     @Autowired
     private SalesConfirmationSender salesConfirmationSender;
+
+    @Autowired
+    private SalesClient salesClient;
 
     public List<ProductResponse> findAll() {
         return productRepository
@@ -213,6 +214,18 @@ public class ProductService {
             throw new ValidationException(
                     String.format("The product %s is out of stock.", existingProduct.getId())
             );
+        }
+    }
+
+    public ProductSalesResponse findProductSales(Integer id) {
+        var product = findById(id);
+        try {
+            var sales = salesClient
+                    .findSalesByProductId(product.getId())
+                    .orElseThrow(() -> new ValidationException("The Sales was not found by this product"));
+            return ProductSalesResponse.of(product, sales.getSalesIds());
+        } catch (Exception ex) {
+            throw new ValidationException("There was an error trying to get the product's sales");
         }
     }
 }

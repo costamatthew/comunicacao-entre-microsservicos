@@ -3,6 +3,7 @@ package br.com.comunicacaoentremicrosservicos.productapi.modules.produto.control
 import br.com.comunicacaoentremicrosservicos.productapi.config.exception.SuccessResponse;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.dto.ProductRequest;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.dto.ProductResponse;
+import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.dto.ProductSalesResponse;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.produto.service.ProductService;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.supplier.dto.SupplierRequest;
 import br.com.comunicacaoentremicrosservicos.productapi.modules.supplier.dto.SupplierResponse;
@@ -58,4 +59,8 @@ public class ProductController {
         return productService.delete(id);
     }
 
+    @GetMapping("{id}/sales")
+    public ProductSalesResponse findProductSales(@PathVariable Integer id) {
+        return productService.findProductSales(id);
+    }
 }
