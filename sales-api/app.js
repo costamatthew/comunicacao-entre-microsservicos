@@ -1,24 +1,23 @@
-import express from 'express'
+import express from 'express';
 
-import { connect } from './src/config/db/mongoDbConfig.js'
-import Order from './src/modules/sales/model/Order.js'
+import { connect } from './src/config/db/mongoDbConfig.js';
+import { createInitialOrder } from './src/config/db/initialData.js';
 
-const app = express()
-const env = process.env
-const PORT = env.PORT || 8082
+const app = express();
+const env = process.env;
+const PORT = env.PORT || 8082;
 
-connect()
+connect();
+createInitialOrder();
 
 app.get('/api/status', async (req, res) => {
-  const teste = await Order.find()
-  console.log(teste)
   return res.status(200).json({
     serice: 'Sales-API',
     status: 'up',
     httpStatus: 200,
-  })
-})
+  });
+});
 
 app.listen(PORT, () => {
-  console.info(`Server started successfully at port ${PORT}`)
-})
+  console.info(`Server started successfully at port ${PORT}`);
+});
