@@ -3,8 +3,11 @@ import { promisify } from 'util';
 
 import AuthException from './AuthException.js';
 
-import { API_SECRET } from '../secrets/secrets.js';
-import { INTERNAL_SERVER_ERROR, UNAUTHORIZED } from '../httpStatus.js';
+import { API_SECRET } from '../constants/secrets.js';
+import {
+  INTERNAL_SERVER_ERROR,
+  UNAUTHORIZED,
+} from '../constants/httpStatus.js';
 
 const emptySpace = ' ';
 

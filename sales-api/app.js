@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { connect } from './src/config/db/mongoDbConfig.js';
+import { connectMongoDB } from './src/config/db/mongoDbConfig.js';
 import { createInitialOrder } from './src/config/db/initialData.js';
 import checkToken from './src/config/auth/checkToken.js';
 
@@ -8,7 +8,7 @@ const app = express();
 const env = process.env;
 const PORT = env.PORT || 8082;
 
-connect();
+connectMongoDB();
 createInitialOrder();
 
 app.use(checkToken);
