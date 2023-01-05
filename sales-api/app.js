@@ -2,6 +2,8 @@ import express from 'express';
 
 import { connectMongoDB } from './src/config/db/mongoDbConfig.js';
 import { createInitialOrder } from './src/config/db/initialData.js';
+import { connectRabbitMq } from './src/config/rabbitmq/rabbitConfig.js';
+
 import checkToken from './src/config/auth/checkToken.js';
 
 const app = express();
@@ -10,6 +12,7 @@ const PORT = env.PORT || 8082;
 
 connectMongoDB();
 createInitialOrder();
+connectRabbitMq();
 
 app.use(checkToken);
 
