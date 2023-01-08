@@ -11,8 +11,22 @@ import {
 import { RABBIT_MQ_URL } from '../constants/secrets.js';
 
 const HALF_SECOND = 500;
+const HALF_MINUTE = 30000;
+const CONTAINER_ENV = 'container';
 
 export async function connectRabbitMq() {
+  const env = process.env.NODE_ENV;
+  if (CONTAINER_ENV === env) {
+    console.info('Waiting for RabbitMQ to start...');
+    setInterval(async () => {
+      await connectRabbitMqAndCreateQueues();
+    }, HALF_MINUTE);
+  } else {
+    await connectRabbitMqAndCreateQueues();
+  }
+}
+
+async function connectRabbitMqAndCreateQueues() {
   amqp.connect(RABBIT_MQ_URL, (error, connection) => {
     if (error) {
       throw error;
@@ -33,15 +47,15 @@ export async function connectRabbitMq() {
       connection.close();
     }, HALF_SECOND);
   });
+}
 
-  function createQueue(connection, queue, routingkey, topic) {
-    connection.createChannel((error, channel) => {
-      if (error) {
-        throw error;
-      }
-      channel.assertExchange(topic, 'topic', { durable: true });
-      channel.assertQueue(queue, { durable: true });
-      channel.bindQueue(queue, topic, routingkey);
-    });
-  }
+function createQueue(connection, queue, routingkey, topic) {
+  connection.createChannel((error, channel) => {
+    if (error) {
+      throw error;
+    }
+    channel.assertExchange(topic, 'topic', { durable: true });
+    channel.assertQueue(queue, { durable: true });
+    channel.bindQueue(queue, topic, routingkey);
+  });
 }
